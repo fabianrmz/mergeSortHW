@@ -99,15 +99,44 @@ public class arraySort{
 		@Override
 		protected void compute() {
 			if(left<right) {
-				int mid = (left+right)/2;
-				Parallel divideLeft = new Parallel(n, left, mid);
-				Parallel divideRight = new Parallel(n, mid+1, right);
-				
-				ForkJoinTask.invokeAll(divideLeft, divideRight);
-				this.merge(left, mid, right);
-				if(left==0 && right == this.n.length-1) {
-					//this.printArray(); uncomment this to see sorted list
+				if(right-left<=1) {
+					int mid = (left+right)/2;
+					Parallel divideLeft = new Parallel(n, left, mid);
+					Parallel divideRight = new Parallel(n, mid+1, right);
+					ForkJoinTask.invokeAll(divideLeft, divideRight);
+					this.merge(left, mid, right);
+				}else if(right-left<=16){
+					int mid = (left+right)/2;
+					Parallel divideLeft = new Parallel(n, left, mid);
+					Parallel divideRight = new Parallel(n, mid+1, right);
+					ForkJoinTask.invokeAll(divideLeft, divideRight);
+					this.merge(left, mid, right);
+				}else if(right-left<=100) {
+					int mid = (left+right)/2;
+					Parallel divideLeft = new Parallel(n, left, mid);
+					Parallel divideRight = new Parallel(n, mid+1, right);
+					ForkJoinTask.invokeAll(divideLeft, divideRight);
+					this.merge(left, mid, right);
+				}else if(right-left<=500) {
+					int mid = (left+right)/2;
+					Parallel divideLeft = new Parallel(n, left, mid);
+					Parallel divideRight = new Parallel(n, mid+1, right);
+					ForkJoinTask.invokeAll(divideLeft, divideRight);
+					this.merge(left, mid, right);
+					
+				}else {
+					int mid = (left+right)/2;
+					Parallel divideLeft = new Parallel(n, left, mid);
+					Parallel divideRight = new Parallel(n, mid+1, right);
+					ForkJoinTask.invokeAll(divideLeft, divideRight);
+					this.merge(left, mid, right);
+					
 				}
+				if(left==0 && right == this.n.length-1) {
+					//this.printArray(); uncomment this to print sorted integer list
+				}
+				
+				
 				
 			}
 			
@@ -164,7 +193,7 @@ public class arraySort{
 	    
 	
 	public static void main(String[] args) {
-		int sizes[]= {4000,10000, 100000,1000000};
+		int sizes[]= {1, 40, 100, 4000,10000, 100000,1000000,100000000};
 		for(int i=0;i<sizes.length;i++) {
 			arraySort a = new arraySort(sizes[i]);
 			System.out.println("Array size: "+a.array.length);
@@ -188,7 +217,11 @@ public class arraySort{
 			System.out.println("Time(seconds): "+(tTime*(Math.pow(10, -9)))+" -> ForkJoinPool \n --------------");	
 			
 		} 
+		
 	}
+	
+	
+	
 
 	
 
