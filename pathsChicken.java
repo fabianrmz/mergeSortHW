@@ -1,4 +1,3 @@
-
 public class pathsChicken {
 	
 	
@@ -6,12 +5,14 @@ public class pathsChicken {
 	private int[][] maze;
 	private int x;
 	private int y;
+	private int res;
 	
 	
 	
 
 
 	public pathsChicken(int x, int y){
+		this.res=-1;
 		this.maze=new int[y][x];
 		this.blocks=new int[y][2];
 		this.x=x;
@@ -51,13 +52,8 @@ public class pathsChicken {
 			}
 			
 		}
-		
-		
-		
-		
-		
-		
-		
+		System.out.println("A matrix of "+x+" colums and "+y+" rows was created");
+
 	}
 	
 	public static int randomWithRange(int min, int max){
@@ -66,8 +62,8 @@ public class pathsChicken {
 	}
 
 
-	private void printMaze() {
-		System.out.print("\n");
+	public void printMaze() {
+		System.out.println("\n\n Start\n  |\n  v");
 		for(int i =0 ;i<this.maze.length;i++) {
 			for(int k=0;k< this.maze[i].length;k++) {
 				if(this.maze[i][k]==-1) {
@@ -81,48 +77,28 @@ public class pathsChicken {
 				}else{
 					System.out.print("["+this.maze[i][k]+"] ");
 				}
-				
-				
-				
-				
-				
-				
-				
 			}
-			System.out.print("\n");
+			if(i!=this.maze.length-1) {
+				System.out.print("\n");
+			}else {
+				System.out.print("<--Finish");
+			}
 			
 		}
-		System.out.print("\n");
-		
-		
-		
+		System.out.println("\n");
 	}
 	
 	
-	private void printBlocks() {
-		System.out.println("The block coordinates are: ");
+	public void printBlocks() {
+		System.out.println("-----------------------\nThe block coordinates are: ");
 		for(int i =0 ;i<this.blocks.length;i++) {
-			System.out.println(this.blocks[i][0]+", "+this.blocks[i][1]);
+			System.out.print("("+this.blocks[i][0]+", "+this.blocks[i][1]+")\t");
 			
 		}
-		
-	}
-	
-	
-	
-	
-	
-	public static void main(String[] args) {
-		pathsChicken a=new pathsChicken(5,8);
-		a.printBlocks();
-		a.printMaze();
-		a.findPaths();
-		
-		
 		
 	}
 
-	private void findPaths() {
+	public void findPaths() {
 		
 		for(int i=this.maze.length-1 ;i>=0;i--) {
 			for(int k=this.maze[i].length-1;k>=0;k--) {
@@ -145,11 +121,6 @@ public class pathsChicken {
 					}
 				}
 				
-				if(this.maze[i][k]==-1) {
-					System.out.println("block coordinates ("+i+","+k+")");
-				}else {
-					System.out.println(this.maze[i][k]+" coordinates ("+i+","+k+")");
-				}
 				
 				
 				
@@ -160,11 +131,62 @@ public class pathsChicken {
 			
 		}
 		System.out.print("\n");
-		System.out.print("Solved:");
-		this.printMaze();
+		if(this.maze[0][0]!=0) {
+			System.out.print("Solved:");
+			this.res=this.maze[0][0];
+			this.printMaze();
+		}else {
+			System.out.print("Imposible to solve");
+			
+		}
+		
+	}
+	
+	
+	
+	
+	public int getRes() {
+		return this.res;
+	}
+	
+	public static void main(String[] args) {
+		pathsChicken a=new pathsChicken(10,5);
+		a.printBlocks();
+		a.printMaze();
+		a.findPaths();
+		
+		
+		
+	}
+
+	public void setBlocks(int[][] blocks2) {
+		for(int i =0 ;i<this.maze.length;i++) {
+			for(int k=0;k< this.maze[i].length;k++) {
+				this.maze[i][k]=0;
+				for(int j =0 ;j<blocks2.length;j++) {
+					if(i==blocks2[j][1] && k==blocks2[j][0]) {
+						this.maze[i][k]=-1;
+					}
+					
+				}
+				if(this.maze[i][k]!=-1) {
+					if(i==this.maze.length-1 && k==this.maze[i].length-1) {
+						this.maze[i][k]=1;
+					}else {
+						this.maze[i][k]=0;
+					}
+					
+				}
+			}
+			
+		}
+		System.out.println("A matrix of "+x+" colums and "+y+" rows was edited");
+
+		
 	}
 
 
 
 
 }
+
